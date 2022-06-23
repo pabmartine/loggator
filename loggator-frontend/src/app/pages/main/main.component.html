@@ -1,73 +1,129 @@
 <div class="card event-table">
 
-<p-table  #dt1 [value]="events" [globalFilterFields]="['date','source','priority','message']" (sortFunction)="sort($event)" [customSort]="true">
+    <p-table #dt1 [value]="events" [globalFilterFields]="['date','source','priority','message']"
+        (sortFunction)="sort($event)" [customSort]="true">
 
-    <ng-template pTemplate="caption">
-        <div class="flex">
-            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-times" (click)="clear()"></button>
-            <span class="p-input-icon-left ml-auto">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt1.filterGlobal(getEventValue($event), 'contains')" placeholder="Search" />
-            </span>
-        </div>
-    </ng-template>
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-times" (click)="clear()"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt1.filterGlobal(getEventValue($event), 'contains')"
+                        placeholder="Search" />
+                </span>
+            </div>
+        </ng-template>
 
-    <ng-template pTemplate="header">
-        <tr>
-            <th pSortableColumn="date" class="width220center">Date <p-sortIcon field="date"></p-sortIcon></th>
-            <th pSortableColumn="source" class="width200center">Source <p-sortIcon field="source"></p-sortIcon></th>
-            <th pSortableColumn="priority" class="width130center">Priority <p-sortIcon field="priority"></p-sortIcon></th>
-            <th pSortableColumn="message" class="center">Message <p-sortIcon field="message"></p-sortIcon></th>
-        </tr>
-        <tr>
-            <th>
-                <p-columnFilter type="text" field="date"></p-columnFilter>
-            </th>
-            <th>
-                <p-columnFilter field="source" matchMode="in" [showMenu]="false">
-                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                        <p-multiSelect [ngModel]="value" [options]="sources" placeholder="Any" (onChange)="filter($event.value)">
-                            <ng-template let-option pTemplate="item">
-                                <div class="p-multiselect-sources-option">
-                                    <span class="ml-1">{{option}}</span>
-                                </div>
-                            </ng-template>
-                        </p-multiSelect>
-                    </ng-template>
-                </p-columnFilter>
-            </th>
-            <th>
-                <p-columnFilter field="priority" matchMode="in" [showMenu]="false">
-                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                        <p-multiSelect [ngModel]="value" [options]="priorities" placeholder="Any" (onChange)="filter($event.value)">
-                            <ng-template let-option pTemplate="item">
-                                <div class="p-multiselect-priorities-option">
-                                    <span class="ml-1">{{option}}</span>
-                                </div>
-                            </ng-template>
-                        </p-multiSelect>
-                    </ng-template>
-                </p-columnFilter>
-            </th>
-            <th>
-                <p-columnFilter type="text" field="message"></p-columnFilter>
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-event>
-        <tr>
-            <td class="width220center">{{event.date | date: 'dd/MM/yyyy HH:mm:ss.SSS'}}</td>
-            <td class="width220center">{{event.source}}</td>
-            <td class="width130center">{{event.priority}}</td>
-            <td title="{{event.message}}">{{(event.message.length>200)? (event.message | slice:0:200)+'..':(event.message)}}</td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-          <td [attr.colspan]="4">
-             No records found
-          </td>
-        </tr>
-      </ng-template>
-</p-table>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="date" class="width220center">Date <p-sortIcon field="date"></p-sortIcon>
+                </th>
+                <th pSortableColumn="source" class="width200center">Source <p-sortIcon field="source"></p-sortIcon>
+                </th>
+                <th pSortableColumn="priority" class="width130center">Priority <p-sortIcon field="priority">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="message" class="center">Message <p-sortIcon field="message"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="date"></p-columnFilter>
+                </th>
+                <th>
+                    <div class="flex">
+                        <div>
+                            <p-columnFilter field="source" matchMode="in" [showMenu]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="sources" placeholder="Any"
+                                        (onChange)="filter($event.value)">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-sources-option">
+                                                <span class="ml-1">{{option}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                        <div>
+                            <p-overlayPanel #op [dismissable]="true">
+                                <ng-template pTemplate>
+                                    <div class="flex" style="padding:5px" *ngFor="let sourceColor of sourceColorMap | keyvalue">
+                                        <div>
+                                            {{sourceColor.key}}
+                                        </div>
+                                        <div class="picker">
+                                            <p-colorPicker [(ngModel)]="sourceColor.value"
+                                                (onChange)="changeSourceColor(sourceColor.key, sourceColor.value)">
+                                            </p-colorPicker>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-overlayPanel>
+                            <button pButton pRipple type="button" icon="pi pi-palette"
+                                class="p-button-rounded p-button-text" style="color: #6c757d;"
+                                (click)="op.toggle($event)"></button>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div class="flex">
+                        <div>
+                            <p-columnFilter field="priority" matchMode="in" [showMenu]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="priorities" placeholder="Any"
+                                        (onChange)="filter($event.value)">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-priorities-option">
+                                                <span class="ml-1">{{option}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                        <div>
+                            <p-overlayPanel #op2 [dismissable]="true">
+                                <ng-template pTemplate>
+                                    <div class="flex" style="padding:5px" *ngFor="let priorityColor of priorityColorMap | keyvalue">
+                                        <div>
+                                            {{priorityColor.key}}
+                                        </div>
+                                        <div class="picker">
+                                            <p-colorPicker [(ngModel)]="priorityColor.value"
+                                                (onChange)="changePriorityColor(priorityColor.key, priorityColor.value)">
+                                            </p-colorPicker>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-overlayPanel>
+                            <button pButton pRipple type="button" icon="pi pi-palette"
+                                class="p-button-rounded p-button-text" style="color: #6c757d;"
+                                (click)="op2.toggle($event)"></button>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="message"></p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-event>
+            <tr>
+                <td class="width220center">{{event.date | date: 'dd/MM/yyyy HH:mm:ss.SSS'}}</td>
+                <td class="width220center" [ngStyle]=getSourceColor(event.source)>{{event.source}}</td>
+                <td class="width130center" [ngStyle]=getPriorityColor(event.priority)>{{event.priority}}</td>
+                <td title="{{event.message}}">{{(event.message.length>200)? (event.message |
+                    slice:0:200)+'..':(event.message)}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="4">
+                    No records found
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>

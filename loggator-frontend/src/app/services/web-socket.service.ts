@@ -55,7 +55,6 @@ export class WebSocketService {
     }
 
     onEventMessageReceived(message: any) {
-        console.log("Event Message Recieved from Server :: " + message);
         this.mainComponent.handleMessage(JSON.parse(message.body));
     }
 

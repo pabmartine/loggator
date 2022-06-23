@@ -29,26 +29,11 @@
     text-align: center !important;
 }
 
-/* component.scss */
-.color-red {
-    background-color: #ffcdd2;
-    color: #c63737;
-  }
-  
-  .color-blue {
-    background-color: #b3e5fc;
-    color: #23547b;
-  }
-  
-  .color-green {
-    background-color: #c8e6c9;
-    color: #256029;
-  }
-
-  .color-orange {
-    background-color: #fff2e2;
-    color: #cc8925;
-  }
+.picker {
+  width: 100%; 
+  text-align: right; 
+  padding-left: 1em
+}
   
   .event-table{
     overflow: overlay;

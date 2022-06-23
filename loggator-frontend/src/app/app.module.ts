@@ -12,6 +12,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { HeaderComponent } from './pages/header/header.component';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {ColorPickerModule} from 'primeng/colorpicker';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {ListboxModule} from 'primeng/listbox';
 
 
 
@@ -29,7 +32,10 @@ import {MultiSelectModule} from 'primeng/multiselect';
     TableModule,
     InputTextModule,
     ButtonModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ColorPickerModule,
+    OverlayPanelModule,
+    ListboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

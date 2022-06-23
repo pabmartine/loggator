@@ -17,6 +17,10 @@ export class MainComponent implements OnInit, OnDestroy {
   priorities: string[] = [];
   sources: string[] = [];
 
+  sourceColorMap: Map<string, string> = new Map<string, string>();
+  priorityColorMap: Map<string, string> = new Map<string, string>();
+
+
   constructor() {
     this.webSocketAPI = new WebSocketService(this);
   }
@@ -33,9 +37,12 @@ export class MainComponent implements OnInit, OnDestroy {
   handleMessage(event: Event) {
     if (!this.priorities.includes(event.priority)) {
       this.priorities.push(event.priority);
+      this.priorityColorMap.set(event.priority, "#ffffff")
     }
     if (!this.sources.includes(event.source)) {
       this.sources.push(event.source);
+      this.sourceColorMap.set(event.source, "#ffffff")
+
     }
     this.events.unshift(event);
   }
@@ -49,7 +56,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   sort(sort: SortEvent) {
-    console.log(sort);
 
     if (sort.field == 'date') {
       if (sort.order == 1) {
@@ -74,5 +80,29 @@ export class MainComponent implements OnInit, OnDestroy {
         this.events.sort((a, b) => b.message.localeCompare(a.message))
       }
     }
+  }
+
+  changeSourceColor(key: string, value: string) {
+    this.sourceColorMap.set(key, value);
+  }
+
+  changePriorityColor(key: string, value: string) {
+    this.priorityColorMap.set(key, value);
+  }
+
+  getSourceColor(source: string) {
+    let color = this.sourceColorMap.get(source);
+    if (!color)
+      color = "#ffffff";
+
+    return { 'background-color': color };
+  }
+
+  getPriorityColor(priority: string) {
+    let color = this.priorityColorMap.get(priority);
+    if (!color)
+      color = "#ffffff";
+
+    return { 'background-color': color };
   }
 }
