@@ -1,0 +1,22 @@
+.layout-topbar {
+    position: fixed;
+    height: 5rem;
+    z-index: 997;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0 2rem;
+    background-color: var(--surface-card);
+    transition: left .2s;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 3px 5px #00000005, 0 0 2px #0000000d, 0 1px 4px #00000014;
+}
+
+.title {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 32px;
+    color: #495057;
+}
