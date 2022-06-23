@@ -1,0 +1,32 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3.7'
+ 
+# Define services
+services:
+     
+  # App backend service
+  loggator-backend:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: loggator-backend # Use an image built from the specified dockerfile in the `spring-boot-oauth2-social-login` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "9001:9001" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - loggator-net
+ 
+  # Frontend Service 
+  loggator-frontend:
+    build:
+      context: loggator-frontend # Use an image built from the specified dockerfile in the `angular-11-social-login` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "9002:80" # Map the exposed port 80 on the container to port 8081 on the host machine
+    depends_on:
+      - loggator-backend
+    networks:
+      - loggator-net
+   
+# Networks to be created to facilitate communication between containers
+networks:
+  loggator-net: 
