@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SortEvent } from 'primeng/api';
-import { SourceType } from 'src/app/enums/source-type';
 import { Event } from 'src/app/model/Event';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 
@@ -16,7 +15,7 @@ export class MainComponent implements OnInit, OnDestroy {
   events: Event[] = [];
 
   priorities: string[] = [];
-  sources: SourceType[] = [];
+  sources: string[] = [];
 
   constructor() {
     this.webSocketAPI = new WebSocketService(this);
@@ -76,35 +75,4 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  getSourceColor(source: any) {
-    let clase = "";
-    source = SourceType[source];
-    switch (source) {
-      case SourceType.transferer:
-        clase = "color-green"
-        break;
-
-      case SourceType.servo_allfunds_fundhouse:
-        clase = "color-red"
-        break;
-
-      case SourceType.interoperability_tower:
-        clase = "color-blue"
-        break;
-
-        case SourceType.nightwatch:
-          clase = "color-orange"
-          break;
-
-      default:
-        console.log("default");
-    }
-
-    return clase;
-  }
-
-
-
-
 }

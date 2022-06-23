@@ -1,8 +1,6 @@
-import { SourceType } from "../enums/source-type";
-
 export interface Event{
     date : string;
     priority: string;
-    source : SourceType;
+    source : string;
     message : string;
 }

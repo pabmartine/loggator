@@ -57,7 +57,7 @@
     <ng-template pTemplate="body" let-event>
         <tr>
             <td class="width220center">{{event.date | date: 'dd/MM/yyyy HH:mm:ss.SSS'}}</td>
-            <td class="width220center" [ngClass]=getSourceColor(event.source)>{{event.source}}</td>
+            <td class="width220center">{{event.source}}</td>
             <td class="width130center">{{event.priority}}</td>
             <td title="{{event.message}}">{{(event.message.length>200)? (event.message | slice:0:200)+'..':(event.message)}}</td>
         </tr>
