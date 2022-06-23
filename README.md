@@ -7,8 +7,8 @@ Angular application that communicates with the backend via websockets to receive
 ## loggator-backend
 SpringBoot application that receives via webservice logs from different sources and communicates them to the frontend through websockets.
 
-### Log senders
-The different clients that send logs do so through a customized appender through logback. The code needed for this is the following:
+## (Log senders)
+The different clients that send logs through a customized appender through logback. The code needed for this is the following:
 
 **Custom Java Appender**
 
